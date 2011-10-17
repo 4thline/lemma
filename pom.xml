@@ -21,6 +21,41 @@
     <name>Lemma</name>
     <url>http://4thline.org/projects/lemma</url>
 
+
+    <licenses>
+        <license>
+            <name>GNU Affero General Public License, Version 3</name>
+            <url>http://www.gnu.org/licenses/agpl.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>4th Line GmbH, Switzerland</name>
+        <url>http://4thline.com</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>cb</id>
+            <name>Christian Bauer</name>
+            <email>cb_AT_4thline.com</email>
+            <organization>4th Line GmbH, Switzerland</organization>
+            <organizationUrl>http://4thline.com</organizationUrl>
+            <roles>
+                <role>Project Lead</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <repository>
+            <id>4thline.org</id>
+            <url>scpexe://4thline.org/webroot/vhosts/8080/4thline.org/m2/</url>
+        </repository>
+    </distributionManagement>
+
     <!-- ##################################################################################################### -->
 
     <properties>
