@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>My Manual</title>
+    </head>
+    <body>
+        <div class="chapter">
+            <div class="citation javadoc" id="javadoc.example.helloworld.AnchorThis">
+                <div class="title">Referencing 'this'</div>
+                <div class="content">
+                    <p>
+ Although URLs which reference the fully qualified name of a class, method, or package are
+ safe for refactoring in a good IDE, an equally safe shorthand is available with the
+ special path "<code>this</code>." For example, the following Javadoc will contain a
+ citation from the method it is written on:
+ </p>
+                    <div class="citation javacode" id="javacode.example.helloworld.AnchorThis">
+                        <div class="content">
+                            <pre class="prettyprint">/**
+ * Calling Hello World
+ * &lt;p&gt;
+ * A anchor which cites this method's code:
+ * &lt;/p&gt;
+ * &lt;a class="citation" href="javacode://this"/&gt;
+ */
+public void callHelloWorld() {
+    new HelloWorld();
+}
+</pre>
+                        </div>
+                    </div>
+                    <p>
+ You can use this shorthand for any citation anchor in Javadoc on classes, methods, and
+ packages. If your citation anchor is within the Javadoc comment of a class, 'this'
+ followed by a fragment references a method of the class:
+ </p>
+                    <div class="citation javacode" id="anchorthis_classwithfragment">
+                        <div class="content">
+                            <pre class="prettyprint">/**
+ * This is My Class
+ * &lt;p&gt;
+ * And this is a citation anchor which references the source
+ * of a method of this class:
+ * &lt;/p&gt;
+ * &lt;a class="citation" href="javacode://this#myMethod"/&gt;
+ */
+public static class MyClass {
+
+    public void myMethod() {
+        System.out.println("Hello World!");
+    }
+}
+</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="citation javadoc" id="javadoc.example.helloworld.AnchorThis.MyClass">
+                <div class="title">This is My Class</div>
+                <div class="content">
+                    <p>
+ And this is a citation anchor which references the source
+ of a method of this class:
+ </p>
+                    <div class="citation javacode" id="javacode.example.helloworld.AnchorThis.MyClass.myMethod..">
+                        <div class="content">
+                            <pre class="prettyprint">public void myMethod() {
+    System.out.println("Hello World!");
+}
+</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

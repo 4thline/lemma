@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Introduction</title>
+</head>
+
+<body>
+
+<div id="content-body">
+
+    <h1>
+        Lemma - creating valid software documentation
+    </h1>
+
+    <p>
+        Lemma is an easy to use and powerful software documentation tool for Java developers.
+        It enables automatic testing of all code snippets in your software's manual, using an
+        innovative citation mechanism.
+    </p>
+
+    <p>
+        Instead of copying and pasting code examples from your source into your text processor, you
+        simply place a citation marker within your documentation text. Lemma will now find your tested
+        source code, extract the lines you need, and insert them in the right place when you build
+        your documentation.
+    </p>
+
+    <p>
+        The source code Lemma is citing from is typically unit test source code. Therefore, all code
+        examples in your documentation can be tested automatically. Stop writing anemic and artificial unit
+        tests for your software - write real examples that are helpful to your users and include them
+        automatically within your documentation.
+    </p>
+
+    <h2>
+        Getting started
+    </h2>
+
+    <p>
+        If you already use Maven to build your project and run unit tests, Lemma can be integrated in
+        one minute.
+    </p>
+
+    <p>
+        Assuming that your project's artifact identifier is <code>myproject</code>, create the
+        file <code>src/manual/myproject-manual.xhtml</code> with the following content:
+    </p>
+
+     <pre class="prettyprint"><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>My Manual</title>
+</head>
+
+<body>
+
+<div>
+   <a class="citation" href="javadoc://com.myproject.MyUnitTest"/>
+</div>
+
+</body>
+</html>]]></pre>
+
+    <p>
+        Now edit your <code>com.project.MyUnitTest</code> class - which should be located in your test
+        source directory - and create a regular Javadoc comment on the class. Any Javadoc comment that is
+        well-formed XHTML will work, and citation processing is recursive (you can add citation anchors
+        everywhere):
+    </p>
+
+    <pre class="prettyprint"><![CDATA[package com.myproject;
+
+/**
+ * Some documentation
+ * <p>
+ * My text paragraph.
+ * </p>
+ * <a class="citation" href="javacode://this#someMethod()"/>
+ */
+public class MyUnitTest {
+
+    public void someMethod() {
+        ...
+    }
+}]]></pre>
+
+    <p>
+        Add the Lemma plugin repository to your <code>pom.xml</code>:
+    </p>
+
+    <pre class="prettyprint"><![CDATA[<pluginRepositories>
+    <pluginRepository>
+        <id>fourthline-repo</id>
+        <url>http://4thline.org/m2</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </pluginRepository>
+</pluginRepositories>]]></pre>
+
+    <p>
+        Next, start Lemma by executing the <code>manual</code> goal of the plugin:
+    </p>
+
+    <pre><![CDATA[myproject/$ mvn clean org.fourthline.lemma:lemma-maven-plugin:manual]]></pre>
+
+    <p>
+        You can now open your generated documentation in <code>target/manual/myproject-manual.xhtml</code>,
+        use a webbrowser to display this file.
+    </p>
+
+    <p>
+        If you want to know more, or if you <b>are not using Maven</b>, please continue reading
+        the <a href="manual/lemma-manual.html">Lemma User Manual</a>.
+    </p>
+
+    <p>
+        Lemma is Free Software, distributed under the terms of
+        the <a href="http://www.gnu.org/licenses/agpl.txt">GNU Affero General Public License</a>.
+    </p>
+
+</div>
+
+</body>
+</html>

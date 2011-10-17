@@ -1,0 +1,41 @@
+<div class="section" id="section.Includes"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <div class="title">Creating modular documentation with XInclude</div>
+    <div class="content">
+
+        <p>
+            When your Lemma documentation grows, you quickly realize that your master XHTML template
+            file will grow large, too large to handle comfortably. You can use XInclude, an XML feature,
+            to split your XHTML file into several smaller files.
+        </p>
+
+        <p>
+            Let's assume your master template looks as follows:
+        </p>
+
+        <a class="citation" href="file://example/advanced/include/master.xhtml"/>
+
+        <p>
+            Note the additional namespace declaration on the root element. For any include instruction,
+            you also have to specify the base directory. This is a relative location, depending on
+            the current directory from which you execute the documentation build. (This should always
+            be the same "current" directory when you use a build system such as Maven.)
+        </p>
+
+        <p>
+            This is how an included file looks like:
+        </p>
+
+        <a class="citation" href="file://example/advanced/include/chapter02/index.xhtml"/>
+
+        <p>
+            Here, you can again declare the XInclude namespace and continue adding more fine-grained
+            sections to your manual. You do not have to repeat the inclusion base anymore, only the
+            "master" of your inclusion tree requires this. You have to explicitly declare a default
+            namespace (the XHTML namespace) on the root element of each file, however.
+        </p>
+
+    </div>
+</div>

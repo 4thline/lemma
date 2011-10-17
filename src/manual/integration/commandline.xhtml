@@ -1,0 +1,129 @@
+<div class="section" id="section.StartingLemmaJAR" xmlns="http://www.w3.org/1999/xhtml">
+    <div class="title">Starting Lemma from the command-line</div>
+    <div class="content">
+
+        <p>
+            The Lemma distribution ships with a standalone JAR file which you can execute directly:
+        </p>
+
+        <div><pre><![CDATA[$ java -jar lemma-core-*-standalone.jar
+Option "-d" is required
+USAGE: java -jar <JARFILE> [options]
+ -d <path>             : The base path of all source and resource files.
+ -i <template.xhtml>   : XHTML template file.
+ -o <result.xhtml>     : XHTML output file.
+ -overwrite true|false : Overwrite existing output file quietly.
+ -p <package.name>     : Included package, repeat option for multiple packages.]]></pre>
+        </div>
+
+        <p>
+            You can already see that Lemma requires you to specify a base path under which it can
+            find all your sources (and resources such as documentation pictures). This is typically
+            your unit test source directory. Lemma will parse and read your Java unit test source
+            files - note that this is <em>NOT</em> your unit test compile output directory but
+            really the directory under which all your <code>MyUnitTest.java</code> files are stored.
+        </p>
+
+        <p>
+            The <code>-i &lt;template.xhtml&gt;</code> option is also required, use it to specify
+            your "master" documentation template. This XHTML file is the entry point of your documentation;
+            it is where your first citation anchor will link into the rest of your unit tests.
+        </p>
+
+        <p>
+            Finally, you have to provide the name of an output file. Lemma, in standalone mode, will only
+            write this file and nothing else (no other resources will be generated or copied). Lemma
+            will ask if you really want to overwrite this output file if it already exists, unless you
+            call it with <code>-overwrite true</code>.
+        </p>
+
+        <p>
+            Let's assume that your project has the following structure (omitting the main source files):
+        </p>
+
+        <div><pre><![CDATA[/myproject
+`-- src
+|-- manual
+|   `-- myproject-manual.xhtml
+`-- test
+    `-- java
+        `-- com
+            `-- myproject
+                `-- HelloWorld.java]]></pre>
+        </div>
+
+        <p>
+            If you want the manual output file generated in <code>target/manual/myproject-manual.xhtml</code>, call Lemma
+            as follows:
+        </p>
+
+        <div><pre><![CDATA[/myproject/$ java -jar lemma-core-*-standalone.jar \
+ -d src/test/java \
+ -i src/manual/myproject-manual.xhtml \
+ -o target/manual/myproject-manual.xhtml]]></pre>
+        </div>
+
+        <p>
+            The <code>src/manual/myproject-manual.xhtml</code> file looks as follows:
+        </p>
+
+        <div><pre class="prettyprint"><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>My Manual</title>
+</head>
+
+<body>
+
+    <div>
+       <a class="citation" href="javadoc://com.myproject.HelloWorld"/>
+    </div>
+
+</body>
+</html>]]></pre>
+        </div>
+
+        <p>
+            And the <code>HelloWorld.java</code> class is this:
+        </p>
+
+        <div><pre class="prettyprint"><![CDATA[package com.myproject;
+
+/**
+ * Just print a hello.
+ * <p>
+ * This class doesn't do much, its only purpose is to print a
+ * message to <code>System.out</code> without any fuzz.
+ * </p>
+ */
+public class HelloWorld {
+
+    /**
+     * Prints "Hello World".
+     */
+    public void sayHello() {
+        System.out.println(getMessage());
+    }
+
+    public String getMessage() {
+        return "Hello World!";
+    }
+
+}]]></pre>
+        </div>
+
+        <p>
+            After running Lemma, you'll have generated an XHTML output file with the Javadoc of
+            the <code>HelloWorld</code> class cited in your template.
+        </p>
+
+        <p>
+            Note that Lemma, if started from the command-line as shown here, only generates the
+            XHTML output file. It does not copy any of your resources such as <code>doc-files</code>
+            contents (used in Javadoc) or other files (such as CSS) from your manual source folder
+            into the target directory. You will have to copy these by hand or use the Lemma plugin
+            for a Maven build of your project.
+        </p>
+
+    </div>
+</div>
+

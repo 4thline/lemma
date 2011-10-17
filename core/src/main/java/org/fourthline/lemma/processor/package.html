@@ -1,0 +1,27 @@
+<html>
+<head><title>org.fourthline.lemma.processor</title></head>
+<body>
+
+<h1>
+    Processors do the actual work in a pipeline.
+</h1>
+
+<p>
+    The {@link org.fourthline.lemma.processor.xhtml.JavadocCitationProcessor} is currently the
+    main processor, reading citation anchors in an XHTML document and using a
+    Javadoc <code>RootDoc</code> instance to resolve citation sources.
+</p>
+
+<p>
+    The {@link org.fourthline.lemma.processor.xhtml.XRefProcessor} detects anchors in an XHTML
+    document which reference cited sections by their identifier. It extracts the link text from
+    the referenced section title.
+</p>
+
+<p>
+    The {@link org.fourthline.lemma.processor.xhtml.TocProcessor} replaces Table-Of-Contents placeholders
+    in an XHTML document with a generated table of contents.
+</p>
+
+</body>
+</html>

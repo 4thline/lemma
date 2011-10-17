@@ -1,0 +1,42 @@
+<div class="chapter" id="chapter.IntroducingLemma"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <div class="title">Introducing Lemma</div>
+    <div class="content">
+        <p>
+            Creating good software documentation for other software developers can be a challenging task.
+            Writing <em>valid</em> documentation, with tested source code examples, is even more difficult.
+            Traditionally, there were no tools which could guarantee the validity of the documented source
+            code examples.
+        </p>
+
+        <p>
+            Imagine that you have to document your software, and that you want to write a tutorial that explains
+            how to use the software step-by-step. First you'd usually write some example code, like
+            a <code>HelloWorld.java</code> class that can actually be executed. Hence, you
+            <em>validate</em> your example code by running it. Maybe you even write some unit tests when your
+            tutorial application is more complex. Next you switch into documentation mode and start
+            writing your tutorial. You start copying and pasting the code from your IDE into your text processor.
+            You then realize that you can no longer test it, or make changes to it and ensure that it still works,
+            because your documentation tools do not support this.
+        </p>
+
+        <p>
+            Instead of switching between your IDE and your text processor, you could write the example code
+            <em>and</em> your tutorial text in your IDE. After all, it's your favorite text editor anyway. But it
+            doesn't support WYSIWYG, so you have to write text in some markup language, like HTML or XML. And
+            although you avoid switching between two different applications, your writing process still involves
+            copying and pasting of code from testable classes into documentation markup source files. You'll probably
+            find refactoring a little easier, but it's not really much better than having two different environments.
+        </p>
+
+        <p>
+            Lemma bridges that gap. It helps you avoid copying and pasting code into documentation; it inserts
+            code snippets (and other elements) into your tutorial text automatically. This is a <em>citation</em>
+            mechanism that allows you to only maintain one copy of source code, and have it validated, tested, and
+            documented all at the same time.
+        </p>
+
+    </div>
+</div>

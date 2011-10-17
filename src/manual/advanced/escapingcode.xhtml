@@ -1,0 +1,96 @@
+<div class="section" id="section.EscapingCode"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <div class="title">Escaping code</div>
+    <div class="content">
+
+        <p>
+            Sometimes you do not want to cite Java or XML code, you want to write it by hand. The same
+            rules as usual apply: Your code is going to be included in an XHTML document and it therefore
+            has to be escaped and encoded properly.
+        </p>
+
+        <p>
+            In XML you can either escape a whole a block from parsing by marking it as <code>CDATA</code>,
+            or you can encode all "&lt;" and "&gt;" characters using <code>&amp;lt;</code> and
+            <code>&amp;gt;</code> XML entities . Also, but note that this is optional, you should wrap
+            your code in <code>&lt;code&gt;</code> or <code>&lt;pre&gt;</code> elements to control the
+            rendering in monospaced font, and to preserve newlines in code blocks.
+        </p>
+
+        <p>
+            The following example shows a Java code block and an inline code fragment within an XHTML document:
+        </p>
+
+        <div><pre>&lt;p>
+    This is the &lt;code>HelloWorld&lt;/code> class which prints
+    a &lt;code>&amp;lt;hello&amp;gt;&lt;/code> element:
+&lt;/p>
+
+&lt;div>&lt;pre>&lt;![CDATA[
+public class HelloWorld {
+
+    public String print() {
+        return "&lt;hello>world&lt;/hello&gt;";
+    }
+
+}
+]]&gt;&lt;/pre>&lt;/div>
+</pre></div>
+
+        <p>
+            It is usually more convenient to escape longer code blocks with a <code>CDATA</code> section, and
+            encode individual characters when they appear inline with text, as shown above. However, you could
+            use the following escaping and get the same result:
+        </p>
+
+        <div><pre>&lt;p>
+    This is the &lt;code>HelloWorld&lt;/code> class which prints
+    a &lt;code>&lt;![CDATA[&lt;hello&gt;]]&gt;&lt;/code> element:
+&lt;/p>
+
+&lt;div>&lt;pre>
+public class HelloWorld {
+
+    public String print() {
+        return "&amp;lt;hello>world&amp;lt;/hello&gt;";
+    }
+
+}
+&lt;/pre>&lt;/div>
+</pre></div>
+
+        <p>
+            Javadoc has a shortcut for escaping statements and wrapping them in a <code>&lt;code></code>
+            element: The <code>{@code &lt;hello>world&lt;hello>}</code> syntax. Use it whenever you need to
+            escape a statement in a regular Javadoc paragraph. This also works with code blocks in Javadoc
+            comments:
+        </p>
+
+        <div><pre class="prettyprint"><![CDATA[/**
+ * This is the <code>HelloWorld</code> class.
+ *
+ * <p>
+ *    This is what it prints:
+ * </p>
+ *
+ * <div><pre>{@code
+ *
+ * <hello>world</hello>
+ *
+ * }</pre></div>
+ *
+ */
+ public class HelloWorld {}]]></pre></div>
+
+        <p>
+            Anything inside the <code>{@code ...}</code> tag will be escaped with XML entities. You should not
+            use a <code>CDATA</code> block within Javadoc comments, you want to keep it backwards compatible
+            with HTML browsers. Regular Javadoc API documentation is not XHTML but HTML which does not
+            support <code>CDATA</code>. Although your Javadoc comment would work for Lemma documentation
+            generation, it would result in invalid Javadoc API documentation without Lemma.
+        </p>
+
+    </div>
+</div>

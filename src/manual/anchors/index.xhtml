@@ -1,0 +1,109 @@
+<div class="chapter" id="chapter.WorkingWithAnchors"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <div class="title">Working with citation anchors</div>
+    <div class="content">
+
+        <p>
+            A citation anchor is an <code><![CDATA[<a class="citation"/>]]></code> element which in its <code>
+            <![CDATA[href]]></code> attribute references
+            the resource that should be cited. Lemma processes citation anchors and replaces the anchor element with
+            fragments of Javadoc comments or Java source - in fact, it can include content from any citation resource
+            which
+            has a matching reader.
+        </p>
+
+        <p>
+            The following table shows URI schemes, which enable a particular reader, and the resource types the citation
+            content
+            will be extracted from:
+        </p>
+        <table class="infotable fullwidth" border="1">
+            <thead>
+            <tr>
+                <th class="tenwidth">URI scheme</th>
+                <th class="halfwidth">Examples</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <code><![CDATA[javadoc]]></code>
+                </td>
+                <td class="nowrap">
+                    <code><![CDATA[<a ... href="javadoc://my.package"/>]]></code><br/>
+                    <code><![CDATA[<a ... href="javadoc://my.package.MyClass"/>]]></code><br/>
+                    <code><![CDATA[<a ... href="javadoc://my.package.MyClass.MyNestedClass"/>]]></code><br/>
+                    <code><![CDATA[<a ... href="javadoc://my.package.MyClass#myMethod"/>]]></code><br/>
+                    <code><![CDATA[<a ... href="javadoc://my.package.MyClass#myMethod()"/>]]></code><br/>
+                    <code><![CDATA[<a ... href="javadoc://my.package.MyClass#otherMethod(Type, Type)"/>]]></code><br/>
+                    <code><![CDATA[<a ... href="javadoc://this"/>]]></code>
+                </td>
+                <td>
+                    Include the Javadoc XHTML (well-formed) comment text of the specified package, class, or
+                    method, after recursively processing any citation anchors found in the markup.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <code><![CDATA[javacode]]></code>
+                </td>
+                <td class="nowrap">
+                    <code><![CDATA[<a ... href="javacode://my.package"/>]]></code><br/>
+                    <code><![CDATA[<a ... href="javacode://my.package.MyClass"/>]]></code><br/>
+                    <code><![CDATA[<a ... href="javacode://my.package.MyClass.MyNestedClass"/>]]></code><br/>
+                    <code><![CDATA[<a ... href="javacode://my.package.MyClass#myMethod"/>]]></code><br/>
+                    <code><![CDATA[<a ... href="javacode://my.package.MyClass#myMethod()"/>]]></code><br/>
+                    <code><![CDATA[<a ... href="javacode://my.package.MyClass#otherMethod(Type, Type)"/>]]></code><br/>
+                    <code><![CDATA[<a ... href="javacode://this"/>]]></code>
+                </td>
+                <td>
+                    Include the raw source code of the referenced package, class, or method. Note that method
+                    source code includes Java annotations but not the Javadoc comment source of the method.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <code><![CDATA[file]]></code>
+                </td>
+                <td class="nowrap">
+                    <code><![CDATA[<a ... href="file://my/directory/path/to/any/file.xml"/>)]]></code><br/>
+                    <code><![CDATA[<a ... href="file://my/directory/path/to/otherfile.csv"/>)]]></code><br/>
+                    <code><![CDATA[<a ... href="file://my/directory/path/morecontent.xhtml"/>)]]></code><br/>
+                    <code><![CDATA[<a ... href="file://my/package/MyClass.java"/>)]]></code><br/>
+                    <code><![CDATA[<a ... href="my/directory/path/somefile.txt"/>)]]></code>
+                </td>
+                <td>
+                    Include the contents of the referenced file, selecting a matching reader based on the file
+                    extension.
+                    Note that if no URL is specified in a citation anchor (see last example), a reader is selected based
+                    on file
+                    extension. Hence, the <code><![CDATA[file://]]></code> prefix is actually not necessary.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="section">
+            <a class="citation" href="javadoc://example.helloworld.AnchorThis"/>
+        </div>
+
+        <p>
+            Citation can be customized with options, specified as CSS-like values with the {@code style} attribute
+            of the anchor element.
+        </p>
+
+        <div class="section">
+            <a class="citation" href="javadoc://example.helloworld.CustomizingAnchorOptions#javadocCustomTitle()"/>
+        </div>
+        <div class="section">
+            <a class="citation" href="javadoc://example.helloworld.CustomizingAnchorOptions#javacodeFragments()"/>
+        </div>
+        <div class="section">
+            <a class="citation" href="javadoc://example.helloworld.CustomizingAnchorOptions#javacodeCleanLabels()"/>
+        </div>
+
+    </div>
+</div>

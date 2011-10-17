@@ -1,0 +1,148 @@
+<div class="section" id="section.LemmaWithMaven" xmlns="http://www.w3.org/1999/xhtml">
+    <div class="title">Integrating Lemma with a Maven build</div>
+    <div class="content">
+
+        <p>
+            If your project already relies on <a href="http://maven.apache.org/">Maven</a> as a build system,
+            Lemma can be integrated in a few minutes. This guide assumes that you are using the Maven default
+            locations for sources, unit test sources, build target output, and so on.
+        </p>
+
+        <p>
+            First, add the 4th Line repository to your <code>pom.xml</code>:
+        </p>
+
+    <pre class="prettyprint"><![CDATA[<pluginRepositories>
+    <pluginRepository>
+        <id>4thline-repo</id>
+        <url>http://4thline.org/m2</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </pluginRepository>
+</pluginRepositories>]]></pre>
+
+        <p>
+            You can call the Lemma plugin for Maven directly, without any additional configuration:
+        </p>
+
+        <div>
+            <pre><![CDATA[/myprojects/$ mvn clean org.fourthline.lemma:lemma-maven-plugin:manual]]></pre>
+        </div>
+
+        <p>
+            This execution will look for an XHTML template file in <code>src/manual/myproject-manual.xhtml</code>
+            and generate the output XHTML file in <code>target/manual/myproject-manual.xhtml</code>. You might
+            however get "cannot find symbol" warning messages on your console - see the previous section for
+            a more detailed explanation why these occur. To prevent these messages, call the <code>compile</code>
+            and <code>test-compile</code> lifecycles before you execute the Lemma <code>manual</code>
+            plugin goal. The plugin will automatically add your compiled classes and test-classes to the Javadoc
+            classpath:
+        </p>
+
+        <div>
+            <pre><![CDATA[/myprojects/$ mvn clean compile test-compile org.fourthline.lemma:lemma-maven-plugin:manual]]></pre>
+        </div>
+
+        <p>
+            The Lemma plugin will also copy additional documentation resources into your manual target directory.
+            From your manual source folder, all files and sub-directories will be copied as they are. You can store
+            additional resources there and reference them in your main XHTML template (CSS and Javascript files
+            in particular). Note that any files that are named <code>*.xhtml</code> are <em>not</em> copied from your
+            manual source folder - Lemma assumes that all XHTML files are part of the manual compilation.
+        </p>
+
+        <p>
+            Furthermore, all files from your Java source (unit tests) directory are copied if they are stored
+            in <code>doc-files</code> directories. These special directories are part of the Javadoc system, as
+            <a href="http://java.sun.com/j2se/javadoc/writingdoccomments/#images">explained here</a>. You
+            should store images and other resources there which you'd like to reference from within Javadoc
+            comments. All files from all found directories will be copied flat, that is, the package structure
+            will not be preserved but all <code>doc-files/*</code> from all source packages will end up in a single
+            target <code>manual/doc-files/</code> directory. This makes rewriting of references unecessary, and
+            you'll be warned when a duplicate filename is detected.
+        </p>
+
+        <p>
+            You can of course execute the documentation build proccess in your project's <code>package</code> lifecycle,
+            add to your <code>pom.xml</code>:
+        </p>
+
+        <div><pre class="prettyprint"><![CDATA[<build>
+    <plugins>
+
+        <plugin>
+            <groupId>org.fourthline.lemma</groupId>
+            <artifactId>lemma-maven-plugin</artifactId>
+            <version>1.1</version> <!-- Make sure you use the latest version! -->
+            <executions>
+                <execution>
+                    <id>package-manual</id>
+                    <phase>prepare-package</phase>
+                    <goals>
+                        <goal>manual</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <packageNames> <!-- This is optional, see previous section -->
+                    <packageName>com.myproject</packageName>
+                </packageNames>
+            </configuration>
+        </plugin>
+        ...]]></pre></div>
+
+        <p>
+            A more complex example which overrides many of the default settings:
+        </p>
+
+        <div><pre class="prettyprint"><![CDATA[<build>
+    <plugins>
+
+        <plugin>
+            <groupId>org.fourthline.lemma</groupId>
+            <artifactId>lemma-maven-plugin</artifactId>
+            <version>1.1</version> <!-- Make sure you use the latest version! -->
+            <executions>
+                <execution>
+                    <id>package-manual</id>
+                    <phase>prepare-package</phase>
+                    <goals>
+                        <goal>manual</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+
+                    <!-- The directory containing your manual template and
+                         resources, defaults to "${basedir}/src/manual". -->
+                    <manualSourceDirectory>${basedir}src/mydocs/</manualSourceDirectory>
+
+                    <!-- The name of the input XHTML template file in the manual source
+                         directory, defaults to "${project.artifactId}-manual.xhtml". -->
+                    <templateFilename>MyManual.xhtml</templateFilename>
+
+                    <!-- The name of the output directory within the build (target) directory,
+                         defaults to "manual". -->
+                    <outputPath>mydocs</outputPath>
+
+                    <!-- The name of the output XHTML file without suffix, defaults
+                         to "${project.artifactId}-manual". -->
+                    <outputFilename>MyManual</outputFilename>
+
+                    <!-- Optional package names to restrict the Lemma/Javadoc scope. -->
+                    <packageNames>
+                        <packageName>com.myproject</packageName>
+                        <packageName>com.somepkg</packageName>
+                    </packageNames>
+
+            </configuration>
+        </plugin>
+        ...]]></pre></div>
+
+        <p>
+            You can also integrate the Lemma plugin for generation of website documentation. TODO: Document this.
+        </p>
+
+    </div>
+</div>

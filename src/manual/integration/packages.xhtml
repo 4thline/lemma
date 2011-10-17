@@ -1,0 +1,124 @@
+<div class="section" id="section.AboutPackages" xmlns="http://www.w3.org/1999/xhtml">
+    <div class="title">About packages, classes, and source files</div>
+    <div class="content">
+
+        <p>
+            Lemma relies on the <a href="http://java.sun.com/javase/6/docs/technotes/guides/javadoc/index.html">Javadoc
+            tool</a> for documentation parsing. The Javadoc tool is quite old
+            and rather crude. Don't worry, Lemma will hide much of its complexity. Even so, you will most
+            likely encounter certain log messages and warnings related to packages and classes, which you can
+            ignore most of the time. Read on to find out what these messages are and why they occur. You can
+            skip this section if you trust Lemma to do the right thing - and if you have the ability to ignore
+            potentially thousands of warning messages.
+        </p>
+
+        <p>
+            The Javadoc tool reads both source and class files (using the classpath) to build its
+            internal index. When Lemma starts (and if you followed the steps in the previous section) you
+            should see the following line on your console:
+        </p>
+
+        <p>
+            <code>Included package: com.myproject</code>
+        </p>
+
+        <p>
+            This means that Lemma now understands any references to and from classes of that package and
+            its sub-packages. By default, Lemma will look into the given base path directory
+            (where your unit tests are), and configure the Javadoc tool internally with the first-level
+            sub-directories as package names.
+        </p>
+
+        <p>
+            The only subdirectory in the previous example was <code>com</code>, as in
+            <code>myproject/src/test/java/com</code>. The log message is printed by the Javadoc tool, which
+            after being told by Lemma to consider "<code>com</code>", found the <code>com.myproject</code>
+            package in your source folder. It will now proceed to read the source files in that
+            folder to build its index.
+        </p>
+
+        <p>
+            However, it won't stop there. The Javadoc index will also include any compiled classes within
+            the <code>com.myproject</code> package - if they are available on the classpath. If you started
+            Lemma from the command-line without any additional classpath elements, no additional classes
+            and sub-packages of <code>com.myproject</code> will be available, hence, the Javadoc index
+            will <em>only</em> contain your test classes.
+        </p>
+
+        <p>
+            Let's assume that your unit test references a class that is not part of your tests but of your
+            main codebase - a likely scenario. The following class in
+            <code>src/test/java/com/myproject/</code> references the <code>com.myproject.Foo</code> class which is
+            not located in the test sources:
+        </p>
+
+        <div><pre class="prettyprint"><![CDATA[package com.myproject;
+
+public class FooTest {
+
+    public Foo getFoo() {
+        return new Foo();
+    }
+
+}]]></pre></div>
+
+        <p>
+            You will see a rather frighenting message on startup:
+        </p>
+
+        <div><pre><![CDATA[/myproject/src/test/java/com/myproject/FooTest.java:5: cannot find symbol
+symbol  : class Foo
+location: class com.myproject.FooTest
+public Foo getFoo() {
+^]]></pre></div>
+
+        <p>
+            If this would be a regular run of the Java compiler, it would have been aborted. As it is, this is
+            just how the Javadoc tool let's you know that it could not add <code>Foo</code> to its index. It was
+            not in your test source path and not in compiled form on your classpath. Lemma
+            will continue to execute and probably complete the manual build as expected. To satisfy the Javadoc
+            tool and hide the message, you should consider adding your compile output path to the classpath
+            (and calling Lemma after compiling your main sources into that output path). The following configuration
+            assumes that <code>Foo.class</code> is present in <code>target/classes/my/project/</code>:
+        </p>
+
+        <div><pre><![CDATA[/myproject/$ java -Denv.class.path=target/classes/ -jar lemma-core-*-standalone.jar \
+ -d src/test/java \
+ -i src/manual/MyManualTemplate.xhtml \
+ -o target/manual/MyManual.xhtml]]></pre>
+        </div>
+
+        <p>
+            You can <em>NOT</em> use the regular <code>java -cp [xxx]</code> option to specify the classpath on
+            the command-line, the Javadoc tool (like the javac compiler) uses a system property to configure
+            its classpath.
+        </p>
+
+        <p>
+            Note again that the missing-symbol message is just an informational message which looks more important
+            than it is - unfortunately Lemma can't separate and hide these messages from other, more severe error
+            messages.
+        </p>
+
+        <p>
+            Another warning message you might now frequently see is the following:
+        </p>
+
+        <div><pre><![CDATA[[WARNING] EasyDoclet Application: warning - No source files for package com.myproject.bar
+[WARNING] EasyDoclet Application: warning - No source files for package com.myproject.baz]]></pre></div>
+
+        <p>
+            This warning let's you know that although Lemma added all classes and sub-packages of
+            <code>com.myproject.*</code> to the internal Javadoc index, some of the packages that were found
+            on the classpath are only available in compiled form (on the classpath) and not in source form in
+            your base (unit test) directory.
+        </p>
+        <p>
+            You can restrict the "known" packages and the citation scope that Lemma understands by
+            specifying the <code>-p &lt;package.name&gt;</code> option once or several times. If you
+            do not care about the warnings - and note again that this message is really a "feature" of the
+            Javadoc tool - you do not have to provide any package names.
+        </p>
+
+    </div>
+</div>

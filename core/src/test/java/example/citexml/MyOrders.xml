@@ -1,0 +1,15 @@
+<orders>
+
+    <!-- DOC:ORDER1 -->
+    <order id="1">
+        <lineitem product-id="123" quantity="1" item-price="99.90"/>
+        <lineitem product-id="456" quantity="2" item-price="12.29"/>
+        <lineitem product-id="888" quantity="1" item-price="1.99"/>
+    </order>
+    <!-- DOC:ORDER1 -->
+
+    <order id="2">
+        <lineitem product-id="777" quantity="2" item-price="10.00"/>
+    </order>
+
+</orders>

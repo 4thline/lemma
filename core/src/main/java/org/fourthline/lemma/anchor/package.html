@@ -1,0 +1,25 @@
+<html>
+<head><title>org.fourthline.lemma.anchor</title></head>
+<body>
+
+<h1>
+    Provides abstraction of citation anchors in XHTML documents.
+</h1>
+
+<p>
+    The {@link org.fourthline.lemma.anchor.CitationAnchor} class represents a single anchor in
+    an XHTML document, it's an adapter that ties into the <code>org.fourthline.common.xhtml.XHTML</code>
+    document object model. The most common options of citation anchors are listed in the
+    {@link org.fourthline.lemma.anchor.CitationAnchor.OptionKey} enumeration.
+</p>
+
+<p>
+    The {@link org.fourthline.lemma.anchor.AnchorAddress} class encapsulates parsing and handling of
+    the <code>href</code> attribute value of a citation anchor. It is in fact similar to the
+    Java <code>URI</code> and <code>URL</code> classes, however, because these are rather dumb
+    abstractions, they can't handle URI's that do not use slashes to separate the authority from
+    the path. Hence, this had to be written from scratch.
+</p>
+
+</body>
+</html>

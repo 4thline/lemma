@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>My Manual</title>
+    </head>
+    <body>
+        <div class="chapter">
+            <div class="citation javadoc" id="javadoc.example.helloworld.HelloWorld">
+                <div class="title">Just print a hello.</div>
+                <div class="content">
+                    <p>
+ This class doesn't do much, its only purpose is to print a
+ message to <code>System.out</code> without any fuzz.
+ </p>
+                </div>
+            </div>
+            <div class="citation javacode" id="javacode.example.helloworld.HelloWorld.sayHello..">
+                <div class="content">
+                    <pre class="prettyprint">public void sayHello() {
+    System.out.println(getMessage());
+}
+</pre>
+                </div>
+            </div>
+            <!-- DOC: FRAG1 -->
+            <div class="citation javadoc" id="javadoc.example.advanced.LinkingCitations.callHelloWorld..">
+                <div class="title">This method calls
+ the <a class="xref" href="#javadoc.example.helloworld.HelloWorld">Just print a hello</a> class.</div>
+            </div>
+            <!-- DOC: FRAG1 -->
+            <!-- DOC: FRAG2 -->
+            <div class="citation javadoc" id="javadoc.example.advanced.LinkingCitations.brokenLinks..">
+                <div class="title">This is a broken link to
+ the <a class="xref unresolved" href="#UNRESOLVED_LINK">UNRESOLVED ID: javadoc.example.helloworld.HelloWorld.getMessage..</a> method
+ followed by <a class="xref" href="#javacode.example.helloworld.HelloWorld.sayHello..">this link</a> to the source of
+ another method.</div>
+            </div>
+            <!-- DOC: FRAG2 -->
+        </div>
+    </body>
+</html>

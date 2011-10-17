@@ -1,0 +1,8 @@
+# This is a comment that will NOT be present in the output
+foo = bar # DOC:FRAGMENT1
+somecontent = othercontent
+# This is a comment
+baz = 123
+# DOC:FRAGMENT1
+Helloworld!
+

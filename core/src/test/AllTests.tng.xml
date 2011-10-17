@@ -1,0 +1,21 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Lemma - All" verbose="2">
+
+    <test name="Manual Examples">
+        <packages>
+            <package name="example.helloworld"/>
+            <package name="example.citexml"/>
+            <package name="example.citeplaintext"/>
+            <package name="example.advanced"/>
+        </packages>
+    </test>
+
+    <test name="Citation - Core">
+        <classes>
+            <class name="example.misc.CitationTests"/>
+            <class name="example.misc.ReaderSelectionTests"/>
+        </classes>
+    </test>
+
+</suite>

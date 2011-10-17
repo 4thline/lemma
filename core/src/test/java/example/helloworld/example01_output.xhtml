@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>My Manual</title>
+        <style xml:space="preserve" type="text/css">
+
+            .chapter .title {
+                font-size: 110%;
+                font-weight: bold;
+            }
+
+            .file .content, .javacode .content {
+                font-family: monospace;
+                white-space: pre;
+                margin: 15px;
+                padding: 5px;
+                border: 1px solid #aaaaaa;
+                background-color: #f0f0f0;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="frontmatter">
+            <h1>This is my manual</h1>
+        </div>
+        <div class="chapter">
+            <div class="citation javadoc" id="javadoc.example.helloworld.HelloWorldTest.testHelloWorld..">
+                <div class="title">The <code><![CDATA[HelloWorld]]></code> class</div>
+                <div class="content">
+                    <p>
+ This is the source of the class:
+ </p>
+                    <div class="citation javacode" id="javacode.example.helloworld.HelloWorld">
+                        <div class="content">
+                            <pre class="prettyprint">package example.helloworld;
+
+/**
+ * Just print a hello.
+ * &lt;p&gt;
+ * This class doesn't do much, its only purpose is to print a
+ * message to &lt;code&gt;System.out&lt;/code&gt; without any fuzz.
+ * &lt;/p&gt;
+ */
+public class HelloWorld {
+
+
+    /**
+     * Prints "Hello World".
+     */
+    public void sayHello() {
+        System.out.println(getMessage());
+    }
+
+
+    public String getMessage() {
+        return "Hello World!";
+    }
+
+}
+</pre>
+                        </div>
+                    </div>
+                    <p>
+ To use the class, first instantiate it, then call either <code><![CDATA[getMessage()]]></code> to retrieve
+ the message string or <code><![CDATA[sayHello()]]></code> to print the message to <code><![CDATA[System.out]]></code>:
+ </p>
+                    <div class="citation javacode" id="javacode.example.helloworld.HelloWorldTest.testHelloWorld..">
+                        <div class="content">
+                            <pre class="prettyprint">HelloWorld hw = new HelloWorld();
+assert hw.getMessage().equals("Hello World!");
+assert hw.getMessage().endsWith("!");
+hw.sayHello();
+</pre>
+                        </div>
+                    </div>
+                    <p>
+ If you don't want the message printed to <code><![CDATA[System.out]]></code>, don't call the
+ <code><![CDATA[sayHello()]]></code> method.
+ </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/DECORATION/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+
+    <skin>
+        <groupId>org.fourthline.site</groupId>
+        <artifactId>fourthline-skin</artifactId>
+        <version>1.0</version>
+    </skin>
+
+    <body>
+        <head>
+            <link href="/projects/p-template.xhtml" rel="p-parent"/>
+        </head>
+        <menu>
+            <item name="Introduction"       href="/projects/lemma/index.html"/>
+            <item name="User Manual"        href="/projects/lemma/manual/${project.artifactId}-manual.html"/>
+            <item name="API Documentation"  href="/projects/lemma/apidocs/index.html"/>
+            <item name="Source (Main)"      href="/projects/lemma/xref/index.html"/>
+            <item name="Source (Test)"      href="/projects/lemma/xref-test/index.html"/>
+        </menu>
+    </body>
+
+</project>
