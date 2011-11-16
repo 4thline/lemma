@@ -1,4 +1,4 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="Lemma - All" verbose="2">
 
@@ -12,10 +12,9 @@
     </test>
 
     <test name="Citation - Core">
-        <classes>
-            <class name="example.misc.CitationTests"/>
-            <class name="example.misc.ReaderSelectionTests"/>
-        </classes>
+        <packages>
+            <package name="example.misc"/>
+        </packages>
     </test>
 
 </suite>

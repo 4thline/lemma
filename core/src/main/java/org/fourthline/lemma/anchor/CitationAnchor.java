@@ -41,6 +41,7 @@ public class CitationAnchor extends Anchor {
         INCLUDE("include"),
         EXCLUDE("exclude"),
         CLEAN_LABELS("clean-labels"),
+        LINE_TRIM("line-trim"),
         LTRIM("ltrim"),
         DOTS("dots"),
         FILEPATH("filepath"),

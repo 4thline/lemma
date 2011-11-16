@@ -83,14 +83,29 @@ public class CleanupFilter implements ContentFilter {
                 line = line.length() > spaces && line.matches("^\\s{"+spaces+",}.*") ? line.substring(spaces) : line;
             }
 
-
             // Escape XHTML reserved characters
             // TODO line = XHTMLParser.escape(line);
 
             cleanLines.add(line);
         }
 
-        return cleanLines.toArray(new String[cleanLines.size()]);
+        List<String> strippedLines = new ArrayList();
+
+        Option lineTrimOption = citation.getOption(CitationAnchor.OptionKey.LINE_TRIM);
+        if (lineTrimOption == null || lineTrimOption.isTrue()) {
+            for (int i = 0; i < cleanLines.size(); i++) {
+                String line = cleanLines.get(i);
+                // If this line is only whitespace and the next line is only whitespace, drop this line
+                if (line.matches("\\s*") && cleanLines.size() > i+1 && cleanLines.get(i+1).matches("\\s*")) {
+                    continue;
+                }
+                strippedLines.add(line);
+            }
+        } else {
+            strippedLines = cleanLines;
+        }
+
+        return strippedLines.toArray(new String[strippedLines.size()]);
     }
 
     protected String removeFragmentComment(String line) {
