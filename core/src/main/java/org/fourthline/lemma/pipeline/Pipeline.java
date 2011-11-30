@@ -18,6 +18,7 @@
 package org.fourthline.lemma.pipeline;
 
 import org.fourthline.lemma.processor.Processor;
+import org.fourthline.lemma.processor.ProcessorOptions;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -45,6 +46,7 @@ public abstract class Pipeline<IN, OUT> {
 
     protected void resetContext() {
         getContext().clear();
+        getContext().put(ProcessorOptions.CONTEXT_PROCESSOR_OPTIONS, getProcessorOptions());
     }
 
     public OUT execute(IN input) {
@@ -83,4 +85,5 @@ public abstract class Pipeline<IN, OUT> {
     }
 
     public abstract Processor<IN, OUT>[] getProcessors();
+    public abstract ProcessorOptions getProcessorOptions();
 }

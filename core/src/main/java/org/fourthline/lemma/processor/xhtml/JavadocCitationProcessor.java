@@ -18,12 +18,13 @@
 package org.fourthline.lemma.processor.xhtml;
 
 import com.sun.javadoc.RootDoc;
-import org.seamless.xhtml.XHTML;
 import org.fourthline.lemma.Constants;
 import org.fourthline.lemma.anchor.CitationAnchor;
 import org.fourthline.lemma.pipeline.Context;
 import org.fourthline.lemma.processor.AbstractJavadocProcessor;
+import org.fourthline.lemma.processor.ProcessorOptions;
 import org.fourthline.lemma.reader.Reader;
+import org.seamless.xhtml.XHTML;
 
 import java.util.Stack;
 import java.util.logging.Logger;
@@ -60,7 +61,9 @@ public class JavadocCitationProcessor extends AbstractJavadocProcessor<XHTML, XH
             log.finest("--------------------------------------------------------------------------------");
         }
 */
-        getParser().checkDuplicateIdentifiers(output);
+        ProcessorOptions processorOptions = (ProcessorOptions)context.get(ProcessorOptions.CONTEXT_PROCESSOR_OPTIONS);
+        if (processorOptions.processXRefs)
+            getParser().checkDuplicateIdentifiers(output);
 
         return output;
     }

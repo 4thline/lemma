@@ -17,6 +17,7 @@
 
 package org.fourthline.lemma.processor.xhtml;
 
+import org.fourthline.lemma.processor.ProcessorOptions;
 import org.seamless.xhtml.XHTML;
 import org.seamless.xhtml.XHTMLElement;
 import org.fourthline.lemma.Constants;
@@ -39,6 +40,10 @@ public class XRefProcessor extends AbstractProcessor<XHTML, XHTML> {
 
     public XHTML process(XHTML input, Context context) {
         log.fine("Processing input...");
+
+        ProcessorOptions processorOptions = (ProcessorOptions)context.get(ProcessorOptions.CONTEXT_PROCESSOR_OPTIONS);
+        if (!processorOptions.processXRefs)
+            return input;
 
         XHTML output = transformReferences(input, context);
 

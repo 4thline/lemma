@@ -17,17 +17,17 @@
 
 package org.fourthline.lemma.reader.xml;
 
-import org.seamless.xhtml.XHTML;
-import org.seamless.xhtml.XHTMLElement;
 import org.fourthline.lemma.Constants;
-import org.fourthline.lemma.pipeline.Context;
 import org.fourthline.lemma.anchor.CitationAnchor;
+import org.fourthline.lemma.pipeline.Context;
 import org.fourthline.lemma.reader.AbstractReader;
 import org.fourthline.lemma.reader.content.filter.CleanupFilter;
 import org.fourthline.lemma.reader.content.filter.ContentFilter;
 import org.fourthline.lemma.reader.content.filter.FragmentFilter;
 import org.fourthline.lemma.reader.content.handler.ContentFileHandler;
 import org.fourthline.lemma.reader.content.printer.ContentPrinter;
+import org.seamless.xhtml.XHTML;
+import org.seamless.xhtml.XHTMLElement;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -72,7 +72,7 @@ public class XMLReader extends AbstractReader {
 
     public XHTML read(CitationAnchor citation, Context context) {
 
-        File[] sourceDirectories = (File[])context.get(CONTEXT_SOURCE_DIRECTORIES);
+        File[] sourceDirectories = (File[]) context.get(CONTEXT_SOURCE_DIRECTORIES);
         File addressedFile = resolveFile(citation.getAddress().getPath(), sourceDirectories);
         log.fine("Including and parsing XHTML file: " + addressedFile);
 
@@ -80,8 +80,10 @@ public class XMLReader extends AbstractReader {
 
         XHTMLElement root =
                 xhtml.createRoot(getXPath(), Constants.WRAPPER_ELEMENT)
-                        .setAttribute(XHTML.ATTR.CLASS, citation.getOutputClasses())
-                        .setAttribute(XHTML.ATTR.id, citation.getOutputIdentifier());
+                        .setAttribute(XHTML.ATTR.CLASS, citation.getOutputClasses());
+
+        if (isGenerateId(context))
+            root.setAttribute(XHTML.ATTR.id, citation.getOutputIdentifier());
 
         appendTitle(root, citation.getTitle());
         addFilePath(root, citation, addressedFile);
@@ -105,7 +107,7 @@ public class XMLReader extends AbstractReader {
         if (contentOutput != null) {
             parent.createChild(Constants.WRAPPER_ELEMENT)
                     .setAttribute(XHTML.ATTR.CLASS, Constants.TYPE_CONTENT)
-                    // Wrap it in a <pre class="prettyprint"> for syntax highlighting on websites!
+                            // Wrap it in a <pre class="prettyprint"> for syntax highlighting on websites!
                     .createChild(XHTML.ELEMENT.pre)
                     .setAttribute(XHTML.ATTR.CLASS, "prettyprint")
                     .setContent(contentOutput);

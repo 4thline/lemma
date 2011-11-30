@@ -18,6 +18,7 @@
 package org.fourthline.lemma.pipeline.javadoc;
 
 import com.sun.javadoc.RootDoc;
+import org.fourthline.lemma.processor.ProcessorOptions;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -73,14 +74,16 @@ public class XHTMLTemplateJavadocPipeline extends Pipeline<XHTML, XHTML> {
     final private RootDoc rootDoc;
     final private File[] sourceDirectories;
     final private boolean normalizeOutput;
+    final private ProcessorOptions processorOptions;
 
     public XHTMLTemplateJavadocPipeline(SharedOptions options) {
-        this(options.sourceDirectories, options.packageNames, true);
+        this(options.sourceDirectories, options.packageNames, true, options.processXRefs);
     }
 
     public XHTMLTemplateJavadocPipeline(List<File> sourceDirectories,
                                         List<String> packageNames,
-                                        boolean normalizeOutput) {
+                                        boolean normalizeOutput,
+                                        boolean processXRefs) {
         log.info("Configuring pipeline...");
 
         this.sourceDirectories = sourceDirectories.toArray(new File[sourceDirectories.size()]);
@@ -96,6 +99,9 @@ public class XHTMLTemplateJavadocPipeline extends Pipeline<XHTML, XHTML> {
 
         this.normalizeOutput = normalizeOutput;
         this.xpath = getParser().createXPath();
+
+        this.processorOptions = new ProcessorOptions();
+        processorOptions.processXRefs = processXRefs;
     }
 
     public XHTMLParser getParser() {
@@ -148,12 +154,18 @@ public class XHTMLTemplateJavadocPipeline extends Pipeline<XHTML, XHTML> {
         return output;
     }
 
+    @Override
     public Processor<XHTML, XHTML>[] getProcessors() {
         return new Processor[]{
                 new JavadocCitationProcessor(getRootDoc()),
                 new XRefProcessor(),
                 new TocProcessor(),
         };
+    }
+
+    @Override
+    public ProcessorOptions getProcessorOptions() {
+        return processorOptions;
     }
 
     public static void main(String[] args) throws Exception {
@@ -194,6 +206,9 @@ public class XHTMLTemplateJavadocPipeline extends Pipeline<XHTML, XHTML> {
         @Option(required = true, name = "-i", metaVar = "<template.xhtml>",
                 usage = "XHTML template file.")
         public File xhtmlTemplateFile;
+
+        @Option(name = "-xref", metaVar = "true|false", usage = "Process Javadoc {@link} tags with stable identifiers.")
+        public boolean processXRefs = true;
 
         public SharedOptions() {
         }

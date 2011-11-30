@@ -94,6 +94,12 @@ public class LemmaMojo extends AbstractMojo {
     protected boolean renameXHTMLFiles;
 
     /**
+     * @parameter expression="${manual.processXRefs}"
+     * default-value="true"
+     */
+    protected boolean processXRefs;
+
+    /**
      * @parameter
      */
     protected List<String> deleteSiteFiles = new ArrayList();
@@ -267,7 +273,7 @@ public class LemmaMojo extends AbstractMojo {
         }
 
         // Finally, do the work
-        return new XHTMLTemplateJavadocPipeline(sourceDirectories, packageNames, true);
+        return new XHTMLTemplateJavadocPipeline(sourceDirectories, packageNames, true, processXRefs);
     }
 
     public void copyManualResources(File destination) throws IOException {

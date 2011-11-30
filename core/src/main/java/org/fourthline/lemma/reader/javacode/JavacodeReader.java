@@ -25,18 +25,18 @@ import com.sun.javadoc.PackageDoc;
 import com.sun.javadoc.Parameter;
 import com.sun.javadoc.RootDoc;
 import com.sun.javadoc.Type;
-import org.seamless.xhtml.XHTML;
-import org.seamless.xhtml.XHTMLElement;
 import org.fourthline.lemma.Constants;
-import org.fourthline.lemma.pipeline.Context;
 import org.fourthline.lemma.anchor.CitationAnchor;
-import org.fourthline.lemma.reader.javadoc.AbstractJavadocReader;
+import org.fourthline.lemma.pipeline.Context;
 import org.fourthline.lemma.reader.content.LineRange;
 import org.fourthline.lemma.reader.content.filter.CleanupFilter;
 import org.fourthline.lemma.reader.content.filter.ContentFilter;
 import org.fourthline.lemma.reader.content.filter.FragmentFilter;
 import org.fourthline.lemma.reader.content.handler.ContentFileHandler;
 import org.fourthline.lemma.reader.content.printer.ContentPrinter;
+import org.fourthline.lemma.reader.javadoc.AbstractJavadocReader;
+import org.seamless.xhtml.XHTML;
+import org.seamless.xhtml.XHTMLElement;
 
 import java.io.File;
 import java.util.HashMap;
@@ -78,11 +78,12 @@ public class JavacodeReader extends AbstractJavadocReader {
     protected XHTML read(CitationAnchor citation, Context context, RootDoc rootDoc) {
         return read(
                 findTargetDoc(citation, rootDoc),
-                citation
+                citation,
+                isGenerateId(context)
         );
     }
 
-    protected XHTML read(Doc doc, CitationAnchor citation) {
+    protected XHTML read(Doc doc, CitationAnchor citation, boolean uniqueId) {
         if (doc == null) return null;
 
         log.fine("Reading Javacode: " + doc.position());
@@ -91,8 +92,9 @@ public class JavacodeReader extends AbstractJavadocReader {
 
         XHTMLElement root =
                 xhtml.createRoot(getXPath(), Constants.WRAPPER_ELEMENT)
-                        .setAttribute(XHTML.ATTR.CLASS, citation.getOutputClasses())
-                        .setAttribute(XHTML.ATTR.id, citation.getOutputIdentifier());
+                        .setAttribute(XHTML.ATTR.CLASS, citation.getOutputClasses());
+        if (uniqueId)
+            root.setAttribute(XHTML.ATTR.id, citation.getOutputIdentifier());
 
         appendTitle(root, citation.getTitle());
         addFilePath(root, citation, doc.position().file());
@@ -117,7 +119,7 @@ public class JavacodeReader extends AbstractJavadocReader {
         if (sourceLines != null) {
             parent.createChild(Constants.WRAPPER_ELEMENT)
                     .setAttribute(XHTML.ATTR.CLASS, Constants.TYPE_CONTENT)
-                    // Wrap it in a <pre class="prettyprint"> for syntax highlighting on websites!
+                            // Wrap it in a <pre class="prettyprint"> for syntax highlighting on websites!
                     .createChild(XHTML.ELEMENT.pre)
                     .setAttribute(XHTML.ATTR.CLASS, "prettyprint")
                     .setContent(sourceLines);
@@ -131,7 +133,7 @@ public class JavacodeReader extends AbstractJavadocReader {
         // The type of doc decides if the whole file is returned or just a few lines of the file
 
         if (doc instanceof ClassDoc) {
-            ClassDoc classDoc = (ClassDoc)doc;
+            ClassDoc classDoc = (ClassDoc) doc;
 
             // If it's a nested class, read only the lines of that nested class source
             if (classDoc.containingClass() == null) {
@@ -153,7 +155,7 @@ public class JavacodeReader extends AbstractJavadocReader {
 
             // For methods we return the lines of the method source (signature matching is complex though)
             log.finest("Doc is referencing method declaration: " + doc.name());
-            return handler.getContent(file, getMethodLineRange(file, (MethodDoc)doc));
+            return handler.getContent(file, getMethodLineRange(file, (MethodDoc) doc));
 
         } else {
             log.warning("Unknown doc type/reference, not reading any source: " + doc);

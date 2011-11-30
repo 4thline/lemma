@@ -41,7 +41,7 @@ public abstract class AbstractJavadocReader extends AbstractReader {
 
     final private Logger log = Logger.getLogger(AbstractJavadocReader.class.getName());
 
-    final public static String CONTEXT_ROOT_DOC = " JavadocReader.rootDoc";
+    final public static String CONTEXT_ROOT_DOC = "JavadocReader.rootDoc";
 
     public XHTML read(CitationAnchor citation, Context context) {
         RootDoc rootDoc = (RootDoc) context.get(CONTEXT_ROOT_DOC);

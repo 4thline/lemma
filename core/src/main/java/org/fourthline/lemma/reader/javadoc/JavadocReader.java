@@ -51,12 +51,12 @@ public class JavadocReader extends AbstractJavadocReader {
 
     protected XHTML read(CitationAnchor citation, Context context, RootDoc rootDoc) {
         Doc targetDoc = findTargetDoc(citation, rootDoc);
-        XHTML result = read(targetDoc, citation);
+        XHTML result = read(targetDoc, citation, isGenerateId(context));
         resolveThisReferences(context, targetDoc, result);
         return result;
     }
 
-    protected XHTML read(Doc doc, CitationAnchor citation) {
+    protected XHTML read(Doc doc, CitationAnchor citation, boolean uniqueId) {
 
         log.fine("Reading Javadoc: " + doc.position());
 
@@ -64,8 +64,10 @@ public class JavadocReader extends AbstractJavadocReader {
 
         XHTMLElement root =
                 xhtml.createRoot(getXPath(), Constants.WRAPPER_ELEMENT)
-                        .setAttribute(XHTML.ATTR.CLASS, citation.getOutputClasses())
-                        .setAttribute(XHTML.ATTR.id, citation.getOutputIdentifier());
+                        .setAttribute(XHTML.ATTR.CLASS, citation.getOutputClasses());
+
+        if (uniqueId)
+            root.setAttribute(XHTML.ATTR.id, citation.getOutputIdentifier());
 
         String titleString = readTitle(doc, citation);
 
@@ -108,7 +110,7 @@ public class JavadocReader extends AbstractJavadocReader {
 
                 // Let's validate here!
                 XHTML validationDOM = getParser().createDocument();
-                XHTMLElement validationRoot= validationDOM.createRoot(getXPath(), XHTML.ELEMENT.html);
+                XHTMLElement validationRoot = validationDOM.createRoot(getXPath(), XHTML.ELEMENT.html);
                 validationRoot.createChild(XHTML.ELEMENT.head).createChild(XHTML.ELEMENT.title); // Mandatory
                 validationRoot.createChild(XHTML.ELEMENT.body).appendChild(textDom.getRoot(getXPath()), true);
                 getParser().validate(validationDOM);

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DocletTest {
+public abstract class DocletTest {
 
     protected XHTMLParser xhtmlParser = new XHTMLParser();
     protected File sourceDirectory;
@@ -37,7 +37,7 @@ public class DocletTest {
         dirs.add(sourceDirectory);
 
         xhtmlTemplatePipeline = new XHTMLTemplateJavadocPipeline(
-                dirs, getDefaultPackageNames(sourceDirectory), true
+                dirs, getDefaultPackageNames(sourceDirectory), true, isProcessXRefs()
         );
     }
 
@@ -88,4 +88,7 @@ public class DocletTest {
         return resourceFile.toURI().toURL();
     }
 
+    protected boolean isProcessXRefs() {
+        return true;
+    }
 }

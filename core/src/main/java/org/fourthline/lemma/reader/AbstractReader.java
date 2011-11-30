@@ -17,6 +17,8 @@
 
 package org.fourthline.lemma.reader;
 
+import org.fourthline.lemma.pipeline.Context;
+import org.fourthline.lemma.processor.ProcessorOptions;
 import org.seamless.xhtml.Option;
 import org.seamless.xhtml.XHTML;
 import org.seamless.xhtml.XHTMLElement;
@@ -59,7 +61,7 @@ public abstract class AbstractReader implements Reader {
      * can be found in any source directory matching the path, a classpath lookup is attempted.
      * </p>
      *
-     * @param path The path of the file to be resolved.
+     * @param path              The path of the file to be resolved.
      * @param sourceDirectories The source directories of any file.
      * @return The found file.
      */
@@ -89,7 +91,7 @@ public abstract class AbstractReader implements Reader {
     /**
      * Appends a new child element to the given element, wrapping the title string.
      *
-     * @param parent The parent element to which the title child element is appended.
+     * @param parent      The parent element to which the title child element is appended.
      * @param titleString The title string, any XHTML elements within will be parsed.
      */
     protected void appendTitle(XHTMLElement parent, String titleString) {
@@ -109,9 +111,9 @@ public abstract class AbstractReader implements Reader {
     /**
      * Appends a new child element containing the file path of the citation.
      *
-     * @param parent The parent element to which the file path child element is appended.
+     * @param parent   The parent element to which the file path child element is appended.
      * @param citation The anchor is checked for the option if a file path should be added.
-     * @param file The actual file path.
+     * @param file     The actual file path.
      */
     protected void addFilePath(XHTMLElement parent, CitationAnchor citation, File file) {
         Option filepathOption = citation.getOption(CitationAnchor.OptionKey.FILEPATH);
@@ -124,11 +126,15 @@ public abstract class AbstractReader implements Reader {
             path = path.substring(cwd.length(), path.length());
 
             parent.createChild(Constants.WRAPPER_ELEMENT)
-                .setClasses(Constants.TYPE_FILEPATH)
-                .setContent(path);
+                    .setClasses(Constants.TYPE_FILEPATH)
+                    .setContent(path);
         } catch (Exception ex) {
             throw new RuntimeException("Can't get canonical path of file: " + file, ex);
         }
+    }
+
+    protected boolean isGenerateId(Context context) {
+        return ((ProcessorOptions) context.get(ProcessorOptions.CONTEXT_PROCESSOR_OPTIONS)).processXRefs;
     }
 
 }

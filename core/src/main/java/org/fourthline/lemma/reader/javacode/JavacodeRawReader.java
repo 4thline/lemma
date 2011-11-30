@@ -52,8 +52,10 @@ public class JavacodeRawReader extends JavacodeReader {
 
         XHTMLElement root =
                 xhtml.createRoot(getXPath(), Constants.WRAPPER_ELEMENT)
-                        .setAttribute(XHTML.ATTR.CLASS, citation.getOutputClasses())
-                        .setAttribute(XHTML.ATTR.id, citation.getOutputIdentifier());
+                        .setAttribute(XHTML.ATTR.CLASS, citation.getOutputClasses());
+
+        if (isGenerateId(context))
+            root.setAttribute(XHTML.ATTR.id, citation.getOutputIdentifier());
 
         appendTitle(root, citation.getTitle());
         addFilePath(root, citation, addressedFile);
