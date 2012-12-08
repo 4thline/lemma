@@ -60,6 +60,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>5</maven.compiler.source>
+        <maven.compiler.target>5</maven.compiler.target>
 
         <seamless.version>1.0-SNAPSHOT</seamless.version>
         <testng.version>6.2</testng.version>
@@ -102,7 +104,7 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-    
+
     <!-- ##################################################################################################### -->
 
     <build>
@@ -161,7 +163,7 @@
                 <plugin>
                     <groupId>org.dstovall</groupId>
                     <artifactId>onejar-maven-plugin</artifactId>
-                    <version>1.4.3</version>
+                    <version>1.4.4</version>
                 </plugin>
 
             </plugins>
@@ -180,7 +182,8 @@
     <!-- ##################################################################################################### -->
 
     <reporting>
-        <excludeDefaults>true</excludeDefaults> <!-- This crap just won't die... -->
+        <excludeDefaults>true</excludeDefaults>
+        <!-- This crap just won't die... -->
     </reporting>
 
     <!-- ##################################################################################################### -->
@@ -234,19 +237,23 @@
             <activation>
                 <property>
                     <name>java.vendor</name>
+                    <!-- JDK 1.6
                     <value>Sun Microsystems Inc.</value>
+                    -->
+                    <!-- OpenJDK 7 -->
+                    <value>Oracle Corporation</value>
                 </property>
             </activation>
             <dependencies>
                 <dependency>
                     <groupId>com.sun</groupId>
                     <artifactId>tools</artifactId>
-                    <version>1.6.0</version>
+                    <version>1.0</version> <!-- Doesn't matter -->
                     <scope>system</scope>
                     <systemPath>${java.home}/../lib/tools.jar</systemPath>
                 </dependency>
             </dependencies>
         </profile>
     </profiles>
-    
+
 </project>
