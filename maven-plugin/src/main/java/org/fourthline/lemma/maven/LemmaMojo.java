@@ -144,7 +144,8 @@ public class LemmaMojo extends AbstractMojo {
         try {
             File templateFile = new File(manualSourceDirectory, templateFilename);
             if (!templateFile.exists()) {
-                if (project.getPackaging().equals("pom")) {
+                boolean enable = Boolean.parseBoolean(project.getProperties().getProperty("lemma.manual", "true"));
+                if (!enable || project.getPackaging().equals("pom")) {
                     return;
                 }
                 throw new Exception("Configured template not found in manual directory: " + templateFile);
