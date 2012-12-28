@@ -142,6 +142,10 @@ public class LemmaMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException, MojoFailureException {
 
         try {
+            if (project.getPackaging().equals("pom")) {
+                return;
+            }
+            
             // We might want to load stuff from the test classpath
             extendPluginClasspath((List<String>)project.getTestClasspathElements());
 
