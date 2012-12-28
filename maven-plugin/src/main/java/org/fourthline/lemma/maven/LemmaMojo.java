@@ -142,13 +142,17 @@ public class LemmaMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException, MojoFailureException {
 
         try {
-            // We might want to load stuff from the test classpath
-            extendPluginClasspath((List<String>)project.getTestClasspathElements());
-
             File templateFile = new File(manualSourceDirectory, templateFilename);
             if (!templateFile.exists()) {
+                boolean enable = Boolean.parseBoolean(project.getProperties().getProperty("lemma.manual", "true"));
+                if (!enable || project.getPackaging().equals("pom")) {
+                    return;
+                }
                 throw new Exception("Configured template not found in manual directory: " + templateFile);
             }
+
+            // We might want to load stuff from the test classpath
+            extendPluginClasspath((List<String>)project.getTestClasspathElements());
 
             // Default to test source directory if no source directories are configured
             if (sourceDirectories.isEmpty()) {
