@@ -1,0 +1,27 @@
+<orders>
+
+    <!-- DOC:ORDER1 -->
+    <order id="1">
+        <!-- DOC: CALLOUT
+            This is an expensive item.
+        -->
+        <lineitem product-id="123" quantity="1" item-price="99.90"/>
+        <!-- A regular comment -->
+        <lineitem product-id="456" quantity="2" item-price="12.29"/>
+        <!-- DOC:CALLOUT A cheap item -->
+        <lineitem product-id="888" quantity="1" item-price="1.99"/>
+    </order>
+    <!-- DOC:ORDER1 -->
+
+    <!-- DOC:ORDER2 -->
+    <order id="2">
+        <!-- Some comment -->
+        <!-- DOC:CALLOUT -->
+        <lineitem product-id="777"
+                  quantity="2" item-price="10.00"/>
+        <!-- DOC:CALLOUT -->
+        <lineitem product-id="999" quantity="3" item-price="11.00"/>
+    </order>
+    <!-- DOC:ORDER2 -->
+
+</orders>

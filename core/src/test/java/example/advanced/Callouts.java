@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 4th Line GmbH, Switzerland
+ * Copyright (C) 2013 4th Line GmbH, Switzerland
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,27 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.fourthline.lemma;
+package example.advanced;
 
+import example.util.DocletTest;
 import org.seamless.xhtml.XHTML;
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Christian Bauer
  */
-public interface Constants {
+public class Callouts extends DocletTest {
 
-    public static final String PATTERN_FRAGMENT_LABEL = "DOC:\\s*([A-Z_-]+[0-9]*)\\s*";
+    @Test
+    public void processCallouts() throws Exception {
+        XHTML output = getTemplatePipeline().execute(
+            parseDocument("example/advanced/example03_input.xhtml")
+        );
 
-    public static final XHTML.ELEMENT WRAPPER_ELEMENT = XHTML.ELEMENT.div;
-
-    public static final String CALLOUT_LABEL = "CALLOUT";
-
-    public static final String TYPE_CITATION = "citation";
-    public static final String TYPE_XREF = "xref";
-    public static final String TYPE_TITLE = "title";
-    public static final String TYPE_FILEPATH = "filepath";
-    public static final String TYPE_CONTENT = "content";
-    public static final String TYPE_CALLOUT = "callout";
-    public static final String TYPE_UNRESOLVED = "unresolved";
-
+        assertEquals(
+            getParser().print(output),
+            getContent("example/advanced/example03_output.xhtml")
+        );
+    }
 }

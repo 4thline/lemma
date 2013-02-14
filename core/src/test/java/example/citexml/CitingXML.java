@@ -43,6 +43,7 @@ public class CitingXML extends DocletTest {
         return new Object[][]{
                 {new Pair<String, String>("example/citexml/sample01_input.xhtml", "example/citexml/sample01_output.xhtml")},
                 {new Pair<String, String>("example/citexml/sample02_input.xhtml", "example/citexml/sample02_output.xhtml")},
+                {new Pair<String, String>("example/citexml/sample03_input.xhtml", "example/citexml/sample03_output.xhtml")},
         };
     }
 

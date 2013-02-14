@@ -17,31 +17,46 @@
 
 package org.fourthline.lemma.reader.content.printer;
 
+import org.fourthline.lemma.Constants;
+import org.seamless.xhtml.XHTML;
+import org.seamless.xhtml.XHTMLElement;
+
 import java.util.logging.Logger;
 
 /**
- * Prints citation source lines into a single string.
+ * Prints citation source lines, appends them to an XHTML element.
  *
  * @author Christian Bauer
  */
-public class ContentPrinter {
+public abstract class ContentPrinter {
 
     final private Logger log = Logger.getLogger(ContentPrinter.class.getName());
 
-    public String print(String[] source) {
-        if (source == null || source.length == 0) return null;
-        log.fine("Printing content lines to XHTML: " + source.length);
-        StringBuilder sb = new StringBuilder();
+    public void print(String[] source, XHTMLElement parentElement, String... preFormattedClasses) {
+        if (source == null || source.length == 0)
+            return;
 
-        for (String s : source) {
-            sb.append(s).append(getEndOfLine());
-        }
+        log.fine("Printing content lines: " + source.length);
 
-        return sb.toString();
+        XHTMLElement content =
+            parentElement.createChild(Constants.WRAPPER_ELEMENT)
+            .setAttribute(XHTML.ATTR.CLASS, Constants.TYPE_CONTENT);
+
+        append(source, content, preFormattedClasses);
     }
+
 
     protected String getEndOfLine() {
         return "\n";
     }
+
+    protected XHTMLElement createPreFormattedElement(XHTMLElement parent, String... preFormattedClasses) {
+        XHTMLElement element = parent.createChild(XHTML.ELEMENT.pre);
+        if (preFormattedClasses != null && preFormattedClasses.length > 0)
+            element.setClasses(preFormattedClasses);
+        return element;
+    }
+
+    abstract protected void append(String[] source, XHTMLElement contentElement, String... preFormattedClasses);
 
 }

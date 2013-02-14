@@ -65,23 +65,15 @@ public class JavacodeRawReader extends JavacodeReader {
         return xhtml;
     }
 
-
     protected void appendContent(XHTMLElement parent, File file, CitationAnchor citation) {
 
         String[] content = handler.getContent(file, null);
 
-        // Filtering of source
         for (ContentFilter filter : filters) {
             content = filter.filter(content, citation);
         }
 
-        // Transform the source into an XML document
-        String contentOutput = printer.print(content);
-        if (contentOutput != null) {
-            parent.createChild(Constants.WRAPPER_ELEMENT)
-                    .setAttribute(XHTML.ATTR.CLASS, Constants.TYPE_CONTENT)
-                    .setContent(contentOutput);
-        }
+        printer.print(content, parent, "prettyprint");
     }
 
 }

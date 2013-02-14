@@ -17,6 +17,7 @@
 
 package org.fourthline.lemma.reader.content.filter;
 
+import org.fourthline.lemma.Constants;
 import org.seamless.xhtml.Option;
 import org.fourthline.lemma.anchor.CitationAnchor;
 
@@ -111,6 +112,11 @@ public class CleanupFilter implements ContentFilter {
     protected String removeFragmentComment(String line) {
         Matcher m = getFragmentLabelPattern().matcher(line);
         if (m.matches()) {
+
+            // Preserve CALLOUT labels
+            if (m.group(2).equals(Constants.CALLOUT_LABEL))
+                return line;
+
             String cleanLine = m.group(1);
 
             // Remove trailing whitespace then return remaining before-comment text

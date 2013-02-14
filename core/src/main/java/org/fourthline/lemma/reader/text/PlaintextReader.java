@@ -17,17 +17,18 @@
 
 package org.fourthline.lemma.reader.text;
 
-import org.seamless.xhtml.XHTML;
-import org.seamless.xhtml.XHTMLElement;
 import org.fourthline.lemma.Constants;
-import org.fourthline.lemma.pipeline.Context;
 import org.fourthline.lemma.anchor.CitationAnchor;
+import org.fourthline.lemma.pipeline.Context;
 import org.fourthline.lemma.reader.AbstractReader;
 import org.fourthline.lemma.reader.content.filter.CleanupFilter;
 import org.fourthline.lemma.reader.content.filter.ContentFilter;
 import org.fourthline.lemma.reader.content.filter.FragmentFilter;
 import org.fourthline.lemma.reader.content.handler.ContentFileHandler;
 import org.fourthline.lemma.reader.content.printer.ContentPrinter;
+import org.fourthline.lemma.reader.content.printer.PlainContentPrinter;
+import org.seamless.xhtml.XHTML;
+import org.seamless.xhtml.XHTMLElement;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -58,7 +59,7 @@ public class PlaintextReader extends AbstractReader {
 
     public PlaintextReader() {
         handler = new ContentFileHandler();
-        printer = new ContentPrinter();
+        printer = new PlainContentPrinter();
         filters = new ContentFilter[]{
                 new FragmentFilter(PATTERN_FRAGMENT_LABEL),
                 new CleanupFilter(PATTERN_FRAGMENT_LABEL)
@@ -92,19 +93,11 @@ public class PlaintextReader extends AbstractReader {
 
         String[] content = handler.getContent(file, null);
 
-        // Filtering of source
         for (ContentFilter filter : filters) {
             content = filter.filter(content, citation);
         }
 
-        // Just print it into a <pre>
-        String contentOutput = printer.print(content);
-        if (contentOutput != null) {
-            parent.createChild(Constants.WRAPPER_ELEMENT)
-                    .setAttribute(XHTML.ATTR.CLASS, Constants.TYPE_CONTENT)
-                    .createChild(XHTML.ELEMENT.pre)
-                    .setContent(contentOutput);
-        }
+        printer.print(content, parent);
     }
 
 }

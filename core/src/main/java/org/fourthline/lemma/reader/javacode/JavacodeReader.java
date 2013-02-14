@@ -34,6 +34,7 @@ import org.fourthline.lemma.reader.content.filter.ContentFilter;
 import org.fourthline.lemma.reader.content.filter.FragmentFilter;
 import org.fourthline.lemma.reader.content.handler.ContentFileHandler;
 import org.fourthline.lemma.reader.content.printer.ContentPrinter;
+import org.fourthline.lemma.reader.content.printer.JavaContentPrinter;
 import org.fourthline.lemma.reader.javadoc.AbstractJavadocReader;
 import org.seamless.xhtml.XHTML;
 import org.seamless.xhtml.XHTMLElement;
@@ -68,7 +69,7 @@ public class JavacodeReader extends AbstractJavadocReader {
 
     public JavacodeReader() {
         handler = new ContentFileHandler();
-        printer = new ContentPrinter();
+        printer = new JavaContentPrinter();
         filters = new ContentFilter[]{
                 new FragmentFilter(PATTERN_FRAGMENT_LABEL),
                 new CleanupFilter(PATTERN_FRAGMENT_LABEL)
@@ -109,21 +110,11 @@ public class JavacodeReader extends AbstractJavadocReader {
 
         String[] source = readSource(doc);
 
-        // Filtering of source
         for (ContentFilter filter : filters) {
             source = filter.filter(source, citation);
         }
 
-        // Transform the source into an XML document
-        String sourceLines = printer.print(source);
-        if (sourceLines != null) {
-            parent.createChild(Constants.WRAPPER_ELEMENT)
-                    .setAttribute(XHTML.ATTR.CLASS, Constants.TYPE_CONTENT)
-                            // Wrap it in a <pre class="prettyprint"> for syntax highlighting on websites!
-                    .createChild(XHTML.ELEMENT.pre)
-                    .setAttribute(XHTML.ATTR.CLASS, "prettyprint")
-                    .setContent(sourceLines);
-        }
+        printer.print(source, parent, "prettyprint");
     }
 
     public String[] readSource(Doc doc) {

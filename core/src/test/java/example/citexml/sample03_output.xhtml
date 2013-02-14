@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>My Orders</title>
+    </head>
+    <body>
+        <div>
+            <div class="citation file" id="file.example_citexml_MyOrdersCallouts.xml">
+                <div class="content">
+                    <pre class="prettyprint">&lt;order id="1"&gt;
+    &lt;lineitem product-id="123" quantity="1" item-price="99.90"/&gt; &lt;!-- (1) --&gt;
+    &lt;!-- A regular comment --&gt;
+    &lt;lineitem product-id="456" quantity="2" item-price="12.29"/&gt;
+    &lt;lineitem product-id="888" quantity="1" item-price="1.99"/&gt; &lt;!-- (2) --&gt;
+&lt;/order&gt;
+</pre>
+                    <ol class="callouts">
+                        <li class="callout">This is an expensive item.</li>
+                        <li class="callout">A cheap item</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="citation file" id="MyOrderCallouts2">
+                <div class="content">
+                    <pre class="prettyprint">&lt;order id="2"&gt;
+    &lt;!-- Some comment --&gt;
+    &lt;lineitem product-id="777"
+              quantity="2" item-price="10.00"/&gt; &lt;!-- (1) --&gt;
+    &lt;lineitem product-id="999" quantity="3" item-price="11.00"/&gt; &lt;!-- (2) --&gt;
+&lt;/order&gt;
+</pre>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
