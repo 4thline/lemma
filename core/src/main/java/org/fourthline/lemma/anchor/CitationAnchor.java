@@ -45,7 +45,9 @@ public class CitationAnchor extends Anchor {
         LTRIM("ltrim"),
         DOTS("dots"),
         FILEPATH("filepath"),
-        READER("reader");
+        READER("reader"),
+        PRETTY("pretty");
+
 
         private String key;
 

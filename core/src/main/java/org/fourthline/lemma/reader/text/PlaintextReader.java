@@ -27,6 +27,7 @@ import org.fourthline.lemma.reader.content.filter.FragmentFilter;
 import org.fourthline.lemma.reader.content.handler.ContentFileHandler;
 import org.fourthline.lemma.reader.content.printer.ContentPrinter;
 import org.fourthline.lemma.reader.content.printer.PlainContentPrinter;
+import org.seamless.xhtml.Option;
 import org.seamless.xhtml.XHTML;
 import org.seamless.xhtml.XHTMLElement;
 
@@ -97,7 +98,12 @@ public class PlaintextReader extends AbstractReader {
             content = filter.filter(content, citation);
         }
 
-        printer.print(content, parent);
+        Option prettyOption = citation.getOption(CitationAnchor.OptionKey.PRETTY);
+        if (prettyOption != null && Boolean.valueOf(prettyOption.getFirstValue())) {
+            printer.print(content, parent, "prettyprint");
+        } else {
+            printer.print(content, parent);
+        }
     }
 
 }
