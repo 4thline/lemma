@@ -18,6 +18,7 @@
 package org.fourthline.lemma.reader.content.printer;
 
 import org.fourthline.lemma.Constants;
+import org.fourthline.lemma.anchor.CitationAnchor;
 import org.seamless.xhtml.XHTML;
 import org.seamless.xhtml.XHTMLElement;
 
@@ -32,7 +33,7 @@ public abstract class ContentPrinter {
 
     final private Logger log = Logger.getLogger(ContentPrinter.class.getName());
 
-    public void print(String[] source, XHTMLElement parentElement, String... preFormattedClasses) {
+    public void print(String[] source, CitationAnchor citation, XHTMLElement parentElement, String... preFormattedClasses) {
         if (source == null || source.length == 0)
             return;
 
@@ -42,7 +43,7 @@ public abstract class ContentPrinter {
             parentElement.createChild(Constants.WRAPPER_ELEMENT)
             .setAttribute(XHTML.ATTR.CLASS, Constants.TYPE_CONTENT);
 
-        append(source, content, preFormattedClasses);
+        append(source, citation, content, preFormattedClasses);
     }
 
 
@@ -57,6 +58,6 @@ public abstract class ContentPrinter {
         return element;
     }
 
-    abstract protected void append(String[] source, XHTMLElement contentElement, String... preFormattedClasses);
+    abstract protected void append(String[] source, CitationAnchor citation, XHTMLElement contentElement, String... preFormattedClasses);
 
 }

@@ -17,6 +17,7 @@
 
 package org.fourthline.lemma.reader.content.printer;
 
+import org.fourthline.lemma.anchor.CitationAnchor;
 import org.seamless.xhtml.XHTMLElement;
 
 /**
@@ -25,7 +26,7 @@ import org.seamless.xhtml.XHTMLElement;
 public  class PlainContentPrinter extends ContentPrinter {
 
     @Override
-    protected void append(String[] source, XHTMLElement contentElement, String... preFormattedClasses) {
+    protected void append(String[] source, CitationAnchor citation, XHTMLElement contentElement, String... preFormattedClasses) {
         XHTMLElement preFormatted = createPreFormattedElement(contentElement, preFormattedClasses);
 
         StringBuilder sb = new StringBuilder();

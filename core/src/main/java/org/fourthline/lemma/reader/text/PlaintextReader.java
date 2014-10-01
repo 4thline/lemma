@@ -100,9 +100,9 @@ public class PlaintextReader extends AbstractReader {
 
         Option prettyOption = citation.getOption(CitationAnchor.OptionKey.PRETTY);
         if (prettyOption != null && Boolean.valueOf(prettyOption.getFirstValue())) {
-            printer.print(content, parent, "prettyprint");
+            printer.print(content, citation, parent, "prettyprint");
         } else {
-            printer.print(content, parent);
+            printer.print(content, citation, parent);
         }
     }
 

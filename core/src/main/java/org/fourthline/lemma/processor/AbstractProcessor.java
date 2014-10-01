@@ -88,7 +88,7 @@ public abstract class AbstractProcessor<IN, OUT> implements Processor<IN, OUT> {
                 case JAVACODE:
                     return new JavacodeReader();
                 default:
-                    throw new IllegalStateException("No reader availablef or address scheme of: " + citation);
+                    throw new IllegalStateException("No reader available for address scheme of: " + citation);
             }
 
         } else if (readerOption != null) {

@@ -102,7 +102,7 @@ public class XMLReader extends AbstractReader {
             content = filter.filter(content, citation);
         }
 
-        printer.print(content, parent, "prettyprint");
+        printer.print(content, citation, parent, "prettyprint");
     }
 
 }

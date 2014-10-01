@@ -73,7 +73,7 @@ public class JavacodeRawReader extends JavacodeReader {
             content = filter.filter(content, citation);
         }
 
-        printer.print(content, parent, "prettyprint");
+        printer.print(content, citation, parent, "prettyprint");
     }
 
 }

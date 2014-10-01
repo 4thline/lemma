@@ -17,6 +17,8 @@
 
 package org.fourthline.lemma.reader.content.printer;
 
+import org.fourthline.lemma.anchor.CitationAnchor;
+import org.seamless.xhtml.Option;
 import org.seamless.xhtml.XHTML;
 import org.seamless.xhtml.XHTMLElement;
 import org.seamless.xhtml.XHTMLParser;
@@ -24,7 +26,6 @@ import org.seamless.xml.ParserException;
 
 import javax.xml.xpath.XPath;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,11 @@ abstract public class CalloutContentPrinter extends ContentPrinter {
     final public static Pattern PATTERN_CALLOUT = Pattern.compile("^\\s*DOC:\\s*CALLOUT.*");
 
     @Override
-    protected void append(String[] source, XHTMLElement contentElement, String... preFormattedClasses) {
+    protected void append(String[] source, CitationAnchor citation, XHTMLElement contentElement, String... preFormattedClasses) {
+
+        // TODO: This option should be tested!
+        Option calloutsOption = citation.getOption(CitationAnchor.OptionKey.CALLOUTS);
+        boolean calloutsEnabled = calloutsOption == null || Boolean.valueOf(calloutsOption.getFirstValue());
 
         List<Integer> skippedLines = new ArrayList<Integer>();
         Map<Integer, String> callouts = new LinkedHashMap<Integer, String>();
@@ -94,16 +99,6 @@ abstract public class CalloutContentPrinter extends ContentPrinter {
             }
         }
 
-        XHTMLParser parser = new XHTMLParser();
-        XPath xpath = parser.createXPath();
-
-        XHTMLElement preFormatted =
-            createPreFormattedElement(contentElement, preFormattedClasses);
-
-        XHTMLElement calloutList =
-            contentElement.createChild(XHTML.ELEMENT.ol)
-                .setClasses("callouts");
-
         StringBuilder preFormattedString = new StringBuilder();
         currentLine = 0;
         int currentCallout = 1;
@@ -117,7 +112,7 @@ abstract public class CalloutContentPrinter extends ContentPrinter {
             String line = source[currentLine];
 
             if (searchNextLine || callouts.containsKey(currentLine)) {
-                if (isCalloutMarkerLine(line)) {
+                if (calloutsEnabled && isCalloutMarkerLine(line)) {
                     preFormattedString.append(line)
                         .append(wrapCalloutMarker(currentCallout++))
                         .append(getEndOfLine());
@@ -133,6 +128,11 @@ abstract public class CalloutContentPrinter extends ContentPrinter {
             currentLine++;
         }
 
+        XHTMLParser parser = new XHTMLParser();
+        XPath xpath = parser.createXPath();
+
+        XHTMLElement preFormatted =
+            createPreFormattedElement(contentElement, preFormattedClasses);
 
         if (preFormattedString.length() > 0) {
             preFormatted.setContent(preFormattedString.toString());
@@ -140,31 +140,36 @@ abstract public class CalloutContentPrinter extends ContentPrinter {
             preFormatted.getParent().removeChild(preFormatted);
         }
 
-        // Wrap the callout comment in an XHTML <li> and append to the <ol>
-        for (String calloutString : callouts.values()) {
-            if (calloutString.length() > 0) {
-                try {
-                    XHTML calloutContent = parser.parse(
-                        XHTMLParser.wrap(
-                            XHTML.ELEMENT.li.name(),
-                            XHTML.NAMESPACE_URI,
-                            calloutString
-                        )
-                    );
-                    XHTMLElement calloutItem = calloutContent.getRoot(xpath);
-                    calloutItem.setClasses("callout");
-                    calloutList.appendChild(calloutItem, true);
-                } catch (ParserException ex) {
-                    throw new RuntimeException(
-                        "Error parsing callout comment as XHTML: " + calloutString, ex
-                    );
+        if (calloutsEnabled) {
+            XHTMLElement calloutList =
+                contentElement.createChild(XHTML.ELEMENT.ol)
+                    .setClasses("callouts");
+
+            // Wrap the callout comment in an XHTML <li> and append to the <ol>
+            for (String calloutString : callouts.values()) {
+                if (calloutString.length() > 0) {
+                    try {
+                        XHTML calloutContent = parser.parse(
+                            XHTMLParser.wrap(
+                                XHTML.ELEMENT.li.name(),
+                                XHTML.NAMESPACE_URI,
+                                calloutString
+                            )
+                        );
+                        XHTMLElement calloutItem = calloutContent.getRoot(xpath);
+                        calloutItem.setClasses("callout");
+                        calloutList.appendChild(calloutItem, true);
+                    } catch (ParserException ex) {
+                        throw new RuntimeException(
+                            "Error parsing callout comment as XHTML: " + calloutString, ex
+                        );
+                    }
                 }
             }
+
+            if (calloutList.getChildren().length == 0)
+                calloutList.getParent().removeChild(calloutList);
         }
-
-        if (calloutList.getChildren().length == 0)
-            calloutList.getParent().removeChild(calloutList);
-
     }
 
     protected boolean isCalloutMarkerLine(String line) {

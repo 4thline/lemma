@@ -114,7 +114,7 @@ public class JavacodeReader extends AbstractJavadocReader {
             source = filter.filter(source, citation);
         }
 
-        printer.print(source, parent, "prettyprint");
+        printer.print(source, citation, parent, "prettyprint");
     }
 
     public String[] readSource(Doc doc) {
