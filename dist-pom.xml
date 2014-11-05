@@ -21,7 +21,7 @@
 
        And this is just a reminder for me, you can ignore it:
 
-       mvn -f dist-pom.xml clean post-site; rm -r ~/software/pheon/webroot/4thline.org/projects/lemma/*; cp -R target/site/* ~/software/pheon/webroot/4thline.org/projects/lemma/
+       mvn -f dist-pom.xml clean post-site; rm -r ~/work/webroot/vhosts/8080/4thline.org/projects/lemma/*; cp -R target/site/* ~/work/webroot/vhosts/8080/4thline.org/projects/lemma/
        
     -->
 
@@ -29,7 +29,7 @@
 
     <groupId>org.fourthline.lemma</groupId>
     <artifactId>lemma</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1.0</version>
     <packaging>pom</packaging>
 
     <!-- ##################################################################################################### -->
@@ -78,7 +78,7 @@
             <id>4thline-repo</id>
             <url>http://4thline.org/m2</url>
             <snapshots>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
@@ -126,7 +126,7 @@
                 <!-- Website lifecycle -->
                 <plugin>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.0-beta-3</version>
+                    <version>3.3</version>
                     <dependencies>
                         <!-- We have raw XHTML files -->
                         <dependency>
