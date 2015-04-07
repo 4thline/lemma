@@ -194,11 +194,11 @@ public class XHTMLTemplateJavadocPipeline extends Pipeline<XHTML, XHTML> {
      */
     public static class SharedOptions {
 
-        @Option(required = true, name = "-d", metaVar = "<path>", multiValued = true,
+        @Option(required = true, name = "-d", metaVar = "<path>",
                 usage = "The base path(s) of all source and resource files.")
         public List<File> sourceDirectories = new ArrayList();
 
-        @Option(required = false, name = "-p", metaVar = "<package.name>", multiValued = true,
+        @Option(required = false, name = "-p", metaVar = "<package.name>",
                 usage = "Included package, repeat option for multiple packages.")
         public List<String> packageNames = new ArrayList();
 
