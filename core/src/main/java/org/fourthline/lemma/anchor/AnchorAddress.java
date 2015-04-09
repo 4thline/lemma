@@ -28,7 +28,6 @@ import java.util.logging.Logger;
 
 /**
  * Encapsulates parsing of citation anchor URIs.
- * <p/>
  * <p>
  * Two addresses are <em>equal</em> if they have the same scheme and path, and (if not null) fragment.
  * </p>
