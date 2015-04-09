@@ -20,20 +20,19 @@ package org.fourthline.lemma.reader.javacode;
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.body.BodyDeclaration;
+import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.Parameter;
-import japa.parser.ast.body.ClassOrInterfaceDeclaration;
-import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.visitor.VoidVisitorAdapter;
+import org.fourthline.lemma.reader.content.LineRange;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Logger;
-
-import org.fourthline.lemma.reader.content.LineRange;
 
 /**
  * Finds the "line range" of declarations in a Java source file.
@@ -49,7 +48,6 @@ import org.fourthline.lemma.reader.content.LineRange;
  * In other words, don't be surprised when the source lines of a method can't be found if you use
  * qualified type names on method parameters in your source.
  * </p>
- * <p/>
  * TODO: Revisit this and see if it helps: http://code.google.com/p/javaparser/issues/detail?id=9
  *
  * @author Christian Bauer
@@ -108,7 +106,7 @@ public class LineRangeParser {
         signature.append(methodDeclaration.getName());
         signature.append("(");
         if (methodDeclaration.getParameters() != null) {
-            for (Iterator<Parameter> i = methodDeclaration.getParameters().iterator(); i.hasNext();) {
+            for (Iterator<Parameter> i = methodDeclaration.getParameters().iterator(); i.hasNext(); ) {
                 Parameter p = i.next();
                 signature.append(p.getType().toString());
                 if (i.hasNext()) {
